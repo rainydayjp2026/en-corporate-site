@@ -117,6 +117,16 @@ const NEWS = [
   { date: "2026.02.10", tag: "お知らせ", title: "DXコンサルティングサービスの提供を開始しました" },
 ];
 
+function useIsMobile() {
+  const [mobile, setMobile] = useState(window.innerWidth < 768);
+  useEffect(() => {
+    const handler = () => setMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, []);
+  return mobile;
+}
+
 // Intersection Observer hook
 function useReveal() {
   useEffect(() => {
@@ -151,47 +161,88 @@ function Logo({ v, size = 44, invert = false }) {
 
 function Nav({ v, scrolled }) {
   const [open, setOpen] = useState(false);
+  const isMobile = useIsMobile();
   const links = [
     { href: '#services', label: 'サービス' },
     { href: '#cases', label: '実績' },
     { href: '#about', label: '会社概要' },
     { href: '#news', label: 'ニュース' },
     { href: '#faq', label: 'FAQ' },
+    { href: '#contact', label: 'お問い合わせ' },
   ];
+  const navBg = (scrolled || (isMobile && open)) ? v.navBg : 'transparent';
   return (
     <nav style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-      background: scrolled ? v.navBg : 'transparent',
-      backdropFilter: scrolled ? 'blur(12px)' : 'none',
+      background: navBg,
+      backdropFilter: (scrolled || (isMobile && open)) ? 'blur(12px)' : 'none',
       borderBottom: scrolled ? `1px solid ${v.border}` : 'none',
       transition: 'all 0.4s ease',
-      padding: '0 clamp(20px, 5vw, 80px)',
-      height: 70,
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
     }}>
-      <Logo v={v} size={38} />
-      {/* Desktop links */}
-      <div style={{ display: 'flex', gap: 36, alignItems: 'center' }}>
-        {links.map(l => (
-          <a key={l.href} href={l.href} style={{
-            fontFamily: v.bodyFont, fontSize: 13, fontWeight: 400, letterSpacing: '0.12em',
-            color: v.textMuted, textDecoration: 'none',
-            transition: 'color 0.2s',
-          }}
-          onMouseEnter={e => e.target.style.color = v.text}
-          onMouseLeave={e => e.target.style.color = v.textMuted}
-          >{l.label}</a>
-        ))}
-        <a href="#contact" style={{
-          fontFamily: v.bodyFont, fontSize: 12, fontWeight: 500, letterSpacing: '0.12em',
-          color: v.bg, background: v.accent,
-          padding: '10px 22px', borderRadius: 2, textDecoration: 'none',
-          transition: 'opacity 0.2s',
-        }}
-        onMouseEnter={e => e.target.style.opacity = '0.85'}
-        onMouseLeave={e => e.target.style.opacity = '1'}
-        >お問い合わせ</a>
+      <div style={{
+        padding: '0 clamp(20px, 5vw, 80px)',
+        height: 70,
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      }}>
+        <Logo v={v} size={38} />
+        {isMobile ? (
+          <button
+            onClick={() => setOpen(!open)}
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              display: 'flex', flexDirection: 'column', gap: 5, padding: 8,
+            }}
+          >
+            <span style={{ display: 'block', width: 22, height: 1.5, background: v.text, transition: 'all 0.3s', transform: open ? 'translateY(6.5px) rotate(45deg)' : 'none' }} />
+            <span style={{ display: 'block', width: 22, height: 1.5, background: v.text, transition: 'all 0.3s', opacity: open ? 0 : 1 }} />
+            <span style={{ display: 'block', width: 22, height: 1.5, background: v.text, transition: 'all 0.3s', transform: open ? 'translateY(-6.5px) rotate(-45deg)' : 'none' }} />
+          </button>
+        ) : (
+          <div style={{ display: 'flex', gap: 36, alignItems: 'center' }}>
+            {links.slice(0, 5).map(l => (
+              <a key={l.href} href={l.href} style={{
+                fontFamily: v.bodyFont, fontSize: 13, fontWeight: 400, letterSpacing: '0.12em',
+                color: v.textMuted, textDecoration: 'none', transition: 'color 0.2s',
+              }}
+              onMouseEnter={e => e.target.style.color = v.text}
+              onMouseLeave={e => e.target.style.color = v.textMuted}
+              >{l.label}</a>
+            ))}
+            <a href="#contact" style={{
+              fontFamily: v.bodyFont, fontSize: 12, fontWeight: 500, letterSpacing: '0.12em',
+              color: v.bg, background: v.accent,
+              padding: '10px 22px', borderRadius: 2, textDecoration: 'none', transition: 'opacity 0.2s',
+            }}
+            onMouseEnter={e => e.target.style.opacity = '0.85'}
+            onMouseLeave={e => e.target.style.opacity = '1'}
+            >お問い合わせ</a>
+          </div>
+        )}
       </div>
+      {/* Mobile menu drawer */}
+      {isMobile && (
+        <div style={{
+          maxHeight: open ? 400 : 0,
+          overflow: 'hidden',
+          transition: 'max-height 0.4s cubic-bezier(.16,1,.3,1)',
+          background: v.navBg,
+          borderTop: open ? `1px solid ${v.border}` : 'none',
+        }}>
+          {links.map((l, i) => (
+            <a key={l.href} href={l.href}
+              onClick={() => setOpen(false)}
+              style={{
+                display: 'block',
+                fontFamily: v.bodyFont, fontSize: 15, fontWeight: 400, letterSpacing: '0.12em',
+                color: i === links.length - 1 ? v.accent : v.text,
+                textDecoration: 'none',
+                padding: '18px clamp(20px, 5vw, 80px)',
+                borderBottom: `1px solid ${v.border}`,
+              }}
+            >{l.label}</a>
+          ))}
+        </div>
+      )}
     </nav>
   );
 }
@@ -398,10 +449,11 @@ function Cases({ v }) {
 }
 
 function About({ v }) {
+  const isMobile = useIsMobile();
   return (
     <section id="about" style={{ background: v.bg, padding: '120px clamp(20px, 8vw, 140px)' }}>
       <SectionLabel v={v} en="ABOUT" ja="会社概要" />
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 48 : 80, alignItems: 'center' }}>
         {/* Left: Story */}
         <div className="reveal">
           <p style={{
