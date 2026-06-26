@@ -164,6 +164,7 @@ function Nav({ v, scrolled }) {
   const isMobile = useIsMobile();
   const links = [
     { href: '#services', label: 'サービス' },
+    { href: 'ai-support.html', label: 'AI支援' },
     { href: '#cases', label: '実績' },
     { href: '#about', label: '会社概要' },
     { href: '#news', label: 'ニュース' },
@@ -199,7 +200,7 @@ function Nav({ v, scrolled }) {
           </button>
         ) : (
           <div style={{ display: 'flex', gap: 36, alignItems: 'center' }}>
-            {links.slice(0, 5).map(l => (
+            {links.slice(0, 6).map(l => (
               <a key={l.href} href={l.href} style={{
                 fontFamily: v.bodyFont, fontSize: 13, fontWeight: 400, letterSpacing: '0.12em',
                 color: v.textMuted, textDecoration: 'none', transition: 'color 0.2s',
@@ -407,6 +408,58 @@ function Services({ v }) {
             </div>
           </div>
         ))}
+      </div>
+    </section>
+  );
+}
+
+function WhatWeCan({ v }) {
+  const isMobile = useIsMobile();
+  const cards = [
+    {
+      en: 'Document Automation',
+      title: '文書の自動化',
+      desc: 'ファイル名の統一・請求書のAI-OCR処理など、繰り返し作業をゼロへ。',
+    },
+    {
+      en: 'Workflow Improvement',
+      title: '業務フローの改善',
+      desc: 'kintone等を活用した工程管理・情報一元化で、チームの手間を削減。',
+    },
+  ];
+  return (
+    <section id="what-we-can" style={{ background: v.sectionBg2, padding: '120px clamp(20px, 8vw, 140px)' }}>
+      <SectionLabel v={v} en="WHAT WE DO" ja="えんができること" />
+      <p className="reveal" style={{ fontFamily: v.bodyFont, fontSize: 15, color: v.textMuted, lineHeight: 2.2, letterSpacing: '0.06em', maxWidth: 640, marginBottom: 56 }}>
+        鳥取法人会でのセミナー登壇をはじめ、えんは地域企業のAI活用を現場レベルで支援しています。
+      </p>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 2, marginBottom: 48 }}>
+        {cards.map((c, i) => (
+          <div key={c.en} className={`reveal reveal-delay-${i + 1}`} style={{
+            background: v.cardBg, border: `1px solid ${v.border}`, padding: '48px 40px',
+            transition: 'transform 0.3s ease',
+          }}
+          onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'}
+          onMouseLeave={e => e.currentTarget.style.transform = 'none'}
+          >
+            <div style={{ fontFamily: v.bodyFont, fontSize: 11, letterSpacing: '0.25em', color: v.accent, marginBottom: 16 }}>{c.en}</div>
+            <h3 style={{ fontFamily: v.heroFont, fontWeight: v.headingWeight, fontSize: 22, color: v.text, marginBottom: 20, letterSpacing: '0.04em' }}>{c.title}</h3>
+            <div style={{ width: 32, height: 1, background: v.accent, marginBottom: 20 }} />
+            <p style={{ fontFamily: v.bodyFont, fontSize: 14, color: v.textMuted, lineHeight: 2, letterSpacing: '0.05em' }}>{c.desc}</p>
+          </div>
+        ))}
+      </div>
+      <div className="reveal reveal-delay-3">
+        <a href="ai-support.html"
+          style={{
+            display: 'inline-block',
+            fontFamily: v.bodyFont, fontSize: 13, fontWeight: 500, letterSpacing: '0.15em',
+            color: v.bg, background: v.accent,
+            padding: '14px 36px', textDecoration: 'none', transition: 'opacity 0.2s',
+          }}
+          onMouseEnter={e => e.target.style.opacity = '0.85'}
+          onMouseLeave={e => e.target.style.opacity = '1'}
+        >AI・DX支援の詳細を見る →</a>
       </div>
     </section>
   );
@@ -825,6 +878,7 @@ function App() {
       <Nav v={v} scrolled={scrolled} />
       <Hero v={v} heroStyle={tweaks.heroStyle} />
       <Services v={v} />
+      <WhatWeCan v={v} />
       <Cases v={v} />
       <About v={v} />
       <FAQ v={v} />
