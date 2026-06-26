@@ -199,11 +199,232 @@ function Footer({ v }) {
   );
 }
 
+// ---- コンテンツデータ ----
+const AI_CASES = [
+  {
+    no: '01',
+    title: '請求書・見積書の自動リネーム',
+    desc: 'ファイル名のばらつきを、OCR＋AIで自動的に統一。何千件あっても「ミスして修正」がなくなります。',
+    before: '2026-12-01_見積書.pdf\n26_12-02_お見積書02.pdf\n\n→ 一覧したときに並びが崩れ、打ち直しが発生',
+    after: '2026-12-02_見積書_02.pdf\n\n→ 誰が操作しても同じ命名ルールに自動統一',
+  },
+  {
+    no: '02',
+    title: 'kintoneで作業工程を一元管理',
+    desc: 'サーバー・NAS・パソコンにバラバラだった工程情報をkintoneに集約。OCR＋AIで前処理し、人によるブレを軽減。',
+    before: 'サーバー / NAS / パソコンに分散\n\n→ 送付・確認・修正の手間が多い',
+    after: '受領 → OCR → 確認 → 進行管理を一か所に\n\n→ 作業のブレを大幅に削減',
+  },
+];
+
+// ---- セクション ----
+function AiHero({ v }) {
+  return (
+    <section style={{
+      minHeight: '80vh',
+      background: v.bg,
+      display: 'flex', flexDirection: 'column', justifyContent: 'center',
+      padding: '160px clamp(20px, 8vw, 140px) 100px',
+      position: 'relative', overflow: 'hidden',
+    }}>
+      <div style={{
+        position: 'absolute', inset: 0, pointerEvents: 'none', opacity: 0.04,
+        backgroundImage: `repeating-linear-gradient(90deg, ${v.text} 0, ${v.text} 1px, transparent 0, transparent 80px)`,
+      }} />
+      <div className="reveal" style={{ position: 'relative', zIndex: 1, maxWidth: 800 }}>
+        <div style={{ fontFamily: v.bodyFont, fontSize: 12, letterSpacing: '0.3em', color: v.accent, marginBottom: 24 }}>AI SUPPORT</div>
+        <h1 style={{
+          fontFamily: v.heroFont, fontWeight: v.headingWeight,
+          fontSize: 'clamp(36px, 6vw, 72px)',
+          color: v.text, lineHeight: 1.3, letterSpacing: '0.03em', marginBottom: 32,
+        }}>
+          紙業務を、<br />AIで変える。
+        </h1>
+        <p style={{ fontFamily: v.bodyFont, fontSize: 15, color: v.textMuted, lineHeight: 2.2, letterSpacing: '0.06em', marginBottom: 48, maxWidth: 560 }}>
+          鳥取法人会でのセミナー登壇実績をもとに、えんが現場目線でAI-OCR導入を支援します。抽象論ではなく、御社の業務から逆算した実践的なアプローチです。
+        </p>
+        <a href="index.html#contact"
+          style={{
+            display: 'inline-block',
+            fontFamily: v.bodyFont, fontSize: 13, fontWeight: 500, letterSpacing: '0.15em',
+            color: v.bg, background: v.accent,
+            padding: '16px 40px', textDecoration: 'none', transition: 'opacity 0.2s',
+          }}
+          onMouseEnter={e => e.target.style.opacity = '0.85'}
+          onMouseLeave={e => e.target.style.opacity = '1'}
+        >まずは無料相談</a>
+      </div>
+    </section>
+  );
+}
+
+function PainPoints({ v }) {
+  const pains = [
+    'ファイル名がバラバラで管理できない',
+    '紙・FAX・PDFの処理に毎回手間がかかる',
+    'DXを進めたいが、何から始めればいいか分からない',
+    '人手不足で、繰り返し作業に時間を取られている',
+  ];
+  return (
+    <section style={{ background: v.sectionBg2, padding: '100px clamp(20px, 8vw, 140px)' }}>
+      <SectionLabel v={v} en="PAIN POINTS" ja="こんな悩みはありませんか？" />
+      <div style={{ display: 'grid', gap: 2 }}>
+        {pains.map((p, i) => (
+          <div key={p} className={`reveal reveal-delay-${i + 1}`} style={{
+            background: v.cardBg, border: `1px solid ${v.border}`,
+            padding: '28px 40px',
+            display: 'flex', alignItems: 'center', gap: 24,
+          }}>
+            <div style={{
+              width: 36, height: 36, border: `1px solid ${v.accent}`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+            }}>
+              <span style={{ fontFamily: v.bodyFont, fontSize: 12, color: v.accent, letterSpacing: '0.1em' }}>
+                {String(i + 1).padStart(2, '0')}
+              </span>
+            </div>
+            <p style={{ fontFamily: v.bodyFont, fontSize: 15, color: v.text, letterSpacing: '0.06em', lineHeight: 1.7 }}>{p}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function Approach({ v }) {
+  const steps = [
+    { no: '01', title: '読み取り', desc: '紙・PDF・FAXなどあらゆる文書をOCRでデータ化。手書きも対応します。' },
+    { no: '02', title: '意味づけ', desc: 'AIが内容を理解し、分類・命名・抽出を自動で行います。' },
+    { no: '03', title: '自動処理', desc: 'ファイル整理・kintone連携など、そのまま使えるデータとして活用できる状態に。' },
+  ];
+  return (
+    <section style={{ background: v.bg, padding: '100px clamp(20px, 8vw, 140px)' }}>
+      <SectionLabel v={v} en="OUR APPROACH" ja="えんのアプローチ" />
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 2 }}>
+        {steps.map((s, i) => (
+          <div key={s.no} className={`reveal reveal-delay-${i + 1}`} style={{
+            background: v.cardBg, border: `1px solid ${v.border}`, padding: '48px 40px', position: 'relative',
+            transition: 'transform 0.3s ease',
+          }}
+          onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'}
+          onMouseLeave={e => e.currentTarget.style.transform = 'none'}
+          >
+            <div style={{ position: 'absolute', top: 32, right: 32, fontFamily: v.heroFont, fontWeight: 300, fontSize: 72, color: v.border, lineHeight: 1, pointerEvents: 'none' }}>{s.no}</div>
+            <h3 style={{ fontFamily: v.heroFont, fontWeight: v.headingWeight, fontSize: 22, color: v.text, marginBottom: 20, letterSpacing: '0.04em' }}>{s.title}</h3>
+            <div style={{ width: 32, height: 1, background: v.accent, marginBottom: 20 }} />
+            <p style={{ fontFamily: v.bodyFont, fontSize: 14, color: v.textMuted, lineHeight: 2, letterSpacing: '0.05em' }}>{s.desc}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function AiCases({ v }) {
+  const isMobile = useIsMobile();
+  return (
+    <section style={{ background: v.sectionBg2, padding: '100px clamp(20px, 8vw, 140px)' }}>
+      <SectionLabel v={v} en="CASES" ja="弊社活用事例" />
+      <div style={{ display: 'grid', gap: 80 }}>
+        {AI_CASES.map((c, i) => (
+          <div key={c.no} className={`reveal reveal-delay-${i + 1}`}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 16 }}>
+              <div style={{ fontFamily: v.bodyFont, fontSize: 11, letterSpacing: '0.25em', color: v.accent }}>CASE {c.no}</div>
+            </div>
+            <h3 style={{ fontFamily: v.heroFont, fontWeight: v.headingWeight, fontSize: 24, color: v.text, marginBottom: 16, letterSpacing: '0.04em' }}>{c.title}</h3>
+            <p style={{ fontFamily: v.bodyFont, fontSize: 14, color: v.textMuted, lineHeight: 2, letterSpacing: '0.05em', marginBottom: 32 }}>{c.desc}</p>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 2 }}>
+              <div style={{ background: v.cardBg, border: `1px solid ${v.border}`, padding: '32px 36px' }}>
+                <div style={{ fontFamily: v.bodyFont, fontSize: 11, letterSpacing: '0.2em', color: v.textLight, marginBottom: 16 }}>BEFORE</div>
+                <pre style={{ fontFamily: v.bodyFont, fontSize: 13, color: v.textMuted, lineHeight: 2, whiteSpace: 'pre-wrap', margin: 0 }}>{c.before}</pre>
+              </div>
+              <div style={{ background: v.cardBg, border: `1px solid ${v.accent}60`, padding: '32px 36px' }}>
+                <div style={{ fontFamily: v.bodyFont, fontSize: 11, letterSpacing: '0.2em', color: v.accent, marginBottom: 16 }}>AFTER</div>
+                <pre style={{ fontFamily: v.bodyFont, fontSize: 13, color: v.text, lineHeight: 2, whiteSpace: 'pre-wrap', margin: 0 }}>{c.after}</pre>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function Cost({ v }) {
+  return (
+    <section style={{ background: v.bg, padding: '100px clamp(20px, 8vw, 140px)' }}>
+      <SectionLabel v={v} en="COST" ja="費用の考え方" />
+      <div className="reveal" style={{ maxWidth: 720 }}>
+        <p style={{ fontFamily: v.bodyFont, fontSize: 15, color: v.textMuted, lineHeight: 2.4, letterSpacing: '0.06em', marginBottom: 40 }}>
+          最新モデルが常に最適とは限りません。AIのモデルによってコストは大きく変わるため、必要なところに必要最低限のコストで導入することをえんは大切にしています。
+        </p>
+        <div style={{ border: `1px solid ${v.accent}40`, padding: '32px 40px', background: v.cardBg }}>
+          <div style={{ fontFamily: v.bodyFont, fontSize: 11, letterSpacing: '0.25em', color: v.accent, marginBottom: 16 }}>OUR STANCE</div>
+          <p style={{ fontFamily: v.heroFont, fontWeight: v.headingWeight, fontSize: 20, color: v.text, lineHeight: 1.7, letterSpacing: '0.04em' }}>
+            「目的に合う構成を選ぶ」——それがえんの考え方です。
+          </p>
+        </div>
+        {/* モデル別費用感プレースホルダー */}
+      </div>
+    </section>
+  );
+}
+
+function AiCta({ v }) {
+  return (
+    <section style={{ background: v.sectionBg2, padding: '100px clamp(20px, 8vw, 140px)', textAlign: 'center' }}>
+      <div className="reveal">
+        <div style={{ fontFamily: v.bodyFont, fontSize: 11, letterSpacing: '0.3em', color: v.accent, marginBottom: 24 }}>CONTACT</div>
+        <h2 style={{ fontFamily: v.heroFont, fontWeight: v.headingWeight, fontSize: 'clamp(28px, 4vw, 44px)', color: v.text, letterSpacing: '0.04em', marginBottom: 24 }}>
+          まず話を聞いてみる
+        </h2>
+        <p style={{ fontFamily: v.bodyFont, fontSize: 14, color: v.textMuted, lineHeight: 2, letterSpacing: '0.06em', marginBottom: 48 }}>
+          「えん」では最初の導入部分をお手伝いできます。<br />
+          ゼロから仕組みを作るのが難しい場合でも、伴走します。
+        </p>
+        <a href="index.html#contact"
+          style={{
+            display: 'inline-block',
+            fontFamily: v.bodyFont, fontSize: 13, fontWeight: 500, letterSpacing: '0.15em',
+            color: v.bg, background: v.accent,
+            padding: '18px 56px', textDecoration: 'none', transition: 'opacity 0.2s',
+          }}
+          onMouseEnter={e => e.target.style.opacity = '0.85'}
+          onMouseLeave={e => e.target.style.opacity = '1'}
+        >無料相談はこちら →</a>
+      </div>
+    </section>
+  );
+}
+
+// ---- App ----
 function App() {
   const v = VARIANTS.B;
+  const [scrolled, setScrolled] = useState(false);
+  useReveal();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
     <div style={{ background: v.bg, color: v.text, minHeight: '100vh' }}>
-      <Nav v={v} scrolled={false} />
+      <div style={{
+        position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none',
+        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='washi'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72 0.54' numOctaves='5' seed='8' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23washi)' opacity='1'/%3E%3C/svg%3E")`,
+        backgroundSize: '320px 320px',
+        opacity: 0.045,
+        mixBlendMode: 'screen',
+      }} />
+      <Nav v={v} scrolled={scrolled} />
+      <AiHero v={v} />
+      <PainPoints v={v} />
+      <Approach v={v} />
+      <AiCases v={v} />
+      <Cost v={v} />
+      <AiCta v={v} />
       <Footer v={v} />
     </div>
   );
