@@ -91,10 +91,10 @@ const SERVICES = [
   },
   {
     no: "03",
-    title: "DX コンサルティング",
-    sub: "DX Consulting",
-    desc: "「デジタル化したいけど何から始めれば…」そんなお悩みに、専任担当が伴走しながら対応。鳥取の実情を知る私たちが、地に足の着いたDXをご提案します。",
-    points: ["現状分析・課題整理", "ツール選定・導入支援", "社内研修・定着化"],
+    title: "DX導入支援パートナー",
+    sub: "DX Partner",
+    desc: "「AI導入の相談は受けたが、実務まで手が回らない…」そんなお悩みに、実務担当として伴走します。",
+    points: ["現状分析・要件整理", "ツール選定・導入代行", "操作レクチャー・定着化フォロー"],
   },
 ];
 
@@ -295,7 +295,7 @@ function Hero({ v }) {
           animation: 'heroSlideUp 1s 0.3s cubic-bezier(.16,1,.3,1) both',
           marginBottom: 24,
         }}>
-          地域に、<br />えんを結ぶ。
+          DXを支える<br />「えん」の下の力
         </h1>
 
         {/* Accent line */}
@@ -314,9 +314,10 @@ function Hero({ v }) {
           marginBottom: 52,
           maxWidth: 600, margin: '0 auto 52px',
         }}>
-          鳥取から始まる、地域のデジタル変革。<br />
-          Web制作・アプリ開発・DX支援で、<br />
-          中小企業の「次の一手」を一緒に考えます。
+          私たちは、中小企業やコンサルタント様のデジタル化を実務で支える<br />
+          「縁の下の力持ち」です。Web制作、アプリ開発からAI導入の代行まで。<br />
+          提案だけで終わらず、現場のスタッフが本当に使いこなせる「地に足の着いたIT化」を、<br />
+          共に伴走しながら形にします。
         </p>
 
         <div style={{
@@ -431,7 +432,7 @@ function WhatWeCan({ v }) {
     <section id="what-we-can" style={{ background: v.sectionBg2, padding: '120px clamp(20px, 8vw, 140px)' }}>
       <SectionLabel v={v} en="WHAT WE DO" ja="えんができること" />
       <p className="reveal" style={{ fontFamily: v.bodyFont, fontSize: 15, color: v.textMuted, lineHeight: 2.2, letterSpacing: '0.06em', maxWidth: 640, marginBottom: 56 }}>
-        鳥取法人会でのセミナー登壇をはじめ、えんは地域企業のAI活用を現場レベルで支援しています。
+        鳥取法人会の仲間から中小企業の経営者様が抱えるAIのお悩みをお聞きし、現場のリアルな実情を把握してアドバイスをしています。
       </p>
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 2, marginBottom: 48 }}>
         {cards.map((c, i) => (
@@ -528,9 +529,9 @@ function About({ v }) {
           {[
             ['社名', '株式会社えん'],
             ['設立', '2024年'],
-            ['所在地', '鳥取県鳥取市'],
-            ['事業内容', 'Web制作 / アプリ開発 / DXコンサルティング'],
-            ['対応エリア', '鳥取県・全国（オンライン対応可）'],
+            ['所在地', '鳥取県富安１丁目６－１ー５０３'],
+            ['事業内容', 'Web制作 / アプリ開発 / DX導入支援パートナー'],
+            ['対応エリア', '鳥取県ほか（オンライン対応可）'],
           ].map(([k, val]) => (
             <div key={k} style={{
               display: 'grid', gridTemplateColumns: '100px 1fr',
