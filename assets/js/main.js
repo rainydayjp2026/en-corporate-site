@@ -312,7 +312,7 @@ function Hero({ v }) {
           color: v.textMuted, lineHeight: 2, letterSpacing: '0.08em',
           animation: 'heroSlideUp 1s 0.5s cubic-bezier(.16,1,.3,1) both',
           marginBottom: 52,
-          maxWidth: 600, margin: '0 auto 52px',
+          maxWidth: 820, margin: '0 auto 52px',
         }}>
           私たちは、中小企業やコンサルタント様のデジタル化を実務で支える<br />
           「縁の下の力持ち」です。Web制作、アプリ開発からAI導入の代行まで。<br />
